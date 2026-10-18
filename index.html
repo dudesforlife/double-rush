@@ -1,0 +1,482 @@
+<!doctype html> <!-- beritahu browser ini fail HTML5 -->
+<html lang="en"> <!-- bahasa kandungan: English -->
+<head> <!-- bahagian kepala: info dan gaya, bukan paparan -->
+<meta charset="utf-8"> <!-- sokong semua aksara termasuk emoji -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <!-- paparan elok di telefon -->
+<meta name="theme-color" content="#6d28d9"> <!-- warna bar browser di telefon, sama dengan latar ungu -->
+<title>Double Rush - Doubling Challenge</title> <!-- tajuk tab browser -->
+<style>
+:root{--ink:#2b2144;--muted:#7c7390;--gold:#f59e0b;--green:#16a34a;--red:#e11d48;--line:#eee7fb;--brand:#7c3aed} /* pembolehubah warna tema asal: ungu-pink dengan kad putih */
+*{box-sizing:border-box} /* lebar elemen termasuk padding supaya grid tepat */
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Baloo 2","Comic Sans MS","Chalkboard SE","Segoe UI",system-ui,sans-serif;background:linear-gradient(160deg,#6d28d9,#9333ea 45%,#db2777)} /* latar ungu ke pink ceria penuh skrin */
+.wrap{max-width:520px;margin:0 auto;padding:20px 16px 34px} /* bekas tengah, muat telefon */
+header{display:flex;align-items:center;justify-content:space-between;margin:3px 0 18px;color:#fff} /* bar atas: nama kiri, butang kanan, tulisan putih */
+.brand{font-size:22px;font-weight:900;letter-spacing:.5px;text-shadow:0 2px 0 #0003} /* nama DOUBLE RUSH */
+.brand span{color:#fde047} /* perkataan RUSH warna kuning */
+.hdrbtns{display:flex;align-items:center;gap:8px} /* susun tag dan butang bunyi sebaris */
+.tag{font-size:11px;font-weight:800;color:#fff;border:1px solid #ffffff66;padding:6px 10px;border-radius:999px;background:#ffffff22} /* label DOUBLING GAME */
+.iconbtn{background:#ffffff26;border:1px solid #ffffff66;color:#fff;border-radius:999px;font-size:15px;padding:7px 11px;cursor:pointer} /* butang mute bulat */
+.panel{background:#fff;border-radius:24px;padding:20px;box-shadow:0 14px 34px #0004} /* kad PUTIH untuk soalan dan menu */
+.eyebrow{font-size:11px;letter-spacing:1.6px;font-weight:900;color:var(--brand)} /* teks kecil ungu di atas tajuk */
+h1{font-size:29px;line-height:1.15;margin:5px 0 10px} /* tajuk besar */
+h1 span{color:#db2777} /* sebahagian tajuk warna pink */
+.sub{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 16px} /* penerangan kelabu */
+label{display:block;color:var(--muted);font-size:13px;font-weight:700;margin:12px 0 7px} /* label atas kotak nama */
+input{width:100%;background:#faf8ff;border:2px solid var(--line);border-radius:14px;color:var(--ink);font-size:18px;font-family:inherit;padding:14px;outline:none} /* kotak taip nama pemain */
+input:focus{border-color:var(--brand);box-shadow:0 0 0 3px #7c3aed22} /* garis ungu bila kotak nama disentuh */
+button{border:0;border-radius:14px;padding:15px 16px;font-size:16px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 4px 0 #0002;transition:transform .08s,box-shadow .08s} /* gaya asas butang chunky */
+button:active{transform:translateY(3px);box-shadow:0 0 0 #0000} /* butang tenggelam bila ditekan */
+button:disabled{opacity:.45;cursor:not-allowed} /* butang pudar bila tidak boleh ditekan */
+.primary{background:linear-gradient(180deg,#fcd34d,#f59e0b);color:#5b3405;width:100%;margin-top:14px} /* butang utama kuning */
+.secondary{background:#f1edfd;color:var(--brand);width:100%;margin-top:9px} /* butang kedua ungu muda */
+.smallbtn{font-size:13px;padding:10px 12px} /* butang kecil */
+.hidden{display:none!important} /* sembunyikan skrin yang tidak aktif */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px} /* grid 2 lajur peraturan */
+.rule{background:#faf8ff;border:2px solid var(--line);padding:12px;border-radius:14px;font-size:12px;color:var(--muted);line-height:1.4} /* setiap kotak peraturan */
+.rule b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px} /* tajuk kecil dalam kotak peraturan */
+.panelnote{font-size:11px;color:var(--muted);line-height:1.5;margin-top:14px;text-align:center} /* nota kecil dalam kad */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px} /* bar Level/Masa/Nyawa */
+.stat{background:#fff;border-radius:16px;padding:11px 8px;text-align:center;box-shadow:0 6px 16px #0003} /* setiap kotak statistik putih */
+.stat .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:800} /* label statistik */
+.stat .v{font-size:20px;font-weight:900;margin-top:4px} /* nilai statistik */
+.hearts{font-size:17px;letter-spacing:1px;white-space:nowrap} /* hati tidak pecah baris */
+.progress{height:10px;border-radius:9px;background:#ffffff44;overflow:hidden;margin:4px 0 14px;border:1px solid #ffffff55} /* bar perjalanan ke 1 juta */
+.progress div{height:100%;background:linear-gradient(90deg,#fde047,#f59e0b);width:0;transition:width .25s} /* isian bar perjalanan */
+.question{text-align:center} /* soalan di tengah */
+.hint{color:var(--muted);font-size:13px;font-weight:700} /* arahan kecil */
+.goal{color:var(--brand);font-size:12px;font-weight:800;margin-top:2px} /* label level dan matlamat */
+.equation{display:inline-block;font-size:clamp(38px,11vw,54px);font-weight:900;margin:14px 0 10px} /* nombor soalan besar */
+.timer{display:flex;align-items:center;gap:8px;margin:10px 0 4px} /* baris pemasa: saat dan bar */
+#timeLeft{font-weight:900;min-width:64px;font-size:15px} /* teks baki saat */
+.tbar{flex:1;height:10px;background:#f1edfd;border-radius:9px;overflow:hidden} /* landasan bar masa */
+#timeFill{height:100%;width:100%;background:linear-gradient(90deg,#4ade80,#16a34a);transition:width .2s} /* isian hijau bar masa */
+.tbar.low #timeFill{background:linear-gradient(90deg,#fbbf24,#e11d48)} /* bar jadi merah bila 5 saat terakhir */
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px} /* grid 2x2 pilihan jawapan */
+.choice{font-size:24px;padding:16px 8px;background:#faf8ff;border:2px solid var(--line);color:var(--ink);box-shadow:0 4px 0 #0002} /* setiap butang jawapan besar mesra jari */
+.choice:active{transform:translateY(3px);box-shadow:none} /* kesan tekan pada pilihan */
+.choice:disabled{opacity:.55} /* pilihan pudar selepas jawab */
+.pop{animation:pop .35s} /* animasi melantun bila betul */
+.shake{animation:shake .3s} /* animasi gegar bila salah */
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.15) rotate(-2deg)}100%{transform:scale(1)}} /* langkah animasi lantunan */
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}} /* langkah animasi gegaran */
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}} /* matikan animasi untuk pengguna sensitif */
+.feedback{min-height:25px;text-align:center;font-size:14px;font-weight:800;margin:10px 0 0} /* ruang mesej betul atau salah */
+.good{color:var(--green)} /* mesej betul hijau */
+.bad{color:var(--red)} /* mesej salah merah */
+.livebar{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;font-weight:700;margin-top:12px} /* baris streak dan meter nyawa */
+.btnrow{display:flex;gap:8px;margin-top:12px} /* butang pause dan give up sebaris */
+.btnrow button{flex:1} /* dua butang kongsi ruang sama rata */
+.overlay{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:20px;z-index:50} /* lapisan pause penuh skrin */
+.dcard{background:#fff;border-radius:24px;padding:24px;max-width:420px;width:100%;text-align:center} /* kad putih dalam overlay pause */
+.paused-title{font-size:26px;font-weight:900} /* tajuk PAUSED besar */
+.dsub{color:var(--muted);font-size:13px;margin:8px 0 12px} /* penerangan gangguan decoy */
+.ddecoy{font-size:40px;font-weight:900;color:#db2777;margin:10px 0 16px} /* nombor decoy besar warna pink, warna pekal supaya sentiasa nampak */
+.resulttop{text-align:center;padding:6px 0 14px} /* bahagian atas skrin keputusan */
+.medal{font-size:46px;margin-bottom:8px} /* emoji pingat besar */
+.resultnum{font-size:44px;font-weight:900;color:#db2777;line-height:1.1;margin:8px 0} /* nombor tertinggi dicapai */
+.answerbox{background:#fef9c3;border:2px dashed var(--gold);border-radius:14px;padding:14px;margin:12px 0;font-weight:900;font-size:20px} /* kotak dedah jawapan bila kalah atau give up */
+.answerbox .alabel{display:block;font-size:12px;font-weight:800;color:var(--muted)} /* label kecil dalam kotak jawapan */
+.resultgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0} /* grid statistik keputusan */
+.resultitem{background:#faf8ff;border:2px solid var(--line);border-radius:14px;padding:12px} /* setiap kotak statistik keputusan */
+.resultitem .k{color:var(--muted);font-size:12px;font-weight:700} /* label statistik keputusan */
+.resultitem .v{font-size:21px;font-weight:900;margin-top:5px} /* nilai statistik keputusan */
+.recent{margin-top:14px;border-top:2px dashed var(--line);padding-top:12px} /* bahagian rekod di menu */
+.recent b{font-size:14px} /* tajuk bahagian rekod */
+.recent ul{list-style:none;margin:8px 0 0;padding:0;font-size:13px;color:var(--muted);font-weight:700} /* senarai permainan lepas */
+.recent li{padding:7px 2px;border-bottom:1px dashed var(--line)} /* setiap baris permainan lepas */
+details{margin-top:14px;border-top:2px dashed var(--line);padding-top:12px} /* bahagian boleh buka-tutup */
+summary{cursor:pointer;font-weight:800;font-size:14px} /* tajuk boleh klik untuk lihat sejarah */
+.tablewrap{overflow-x:auto;margin-top:10px} /* jadual boleh skrol mendatar */
+table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap} /* jadual sejarah jawapan */
+th,td{text-align:left;padding:9px 7px;border-bottom:1px solid var(--line)} /* sel jadual */
+th{color:var(--muted)} /* kepala jadual kelabu */
+footer{text-align:center;color:#ffffffaa;font-size:11px;font-weight:700;margin:18px 0 0} /* nota kaki putih pucat */
+@media(min-width:480px){.wrap{padding-top:28px}.panel{padding:24px}} /* ruang lebih selesa di skrin besar */
+</style> <!-- tamat blok CSS -->
+</head> <!-- tamat kepala -->
+<body> <!-- mula badan: semua yang dipapar -->
+<div class="wrap"> <!-- bekas utama tengah skrin -->
+<header><div class="brand">⚡ DOUBLE <span>RUSH</span></div><div class="hdrbtns"><div class="tag">DOUBLING GAME</div><button id="soundBtn" class="iconbtn" aria-label="Toggle sound">🔊</button></div></header> <!-- bar atas: nama game + butang bunyi -->
+<section id="start" class="panel"> <!-- skrin menu utama -->
+  <div class="eyebrow">Ready for an adventure?</div> <!-- teks pembuka kecil -->
+  <h1>How high can you <span>double?</span></h1> <!-- tajuk utama menu -->
+  <p class="sub">Double the number, tap the right answer before time runs out. Reach <b>1,048,576</b> to win! Your best scores are saved on this device.</p> <!-- penerangan game -->
+  <label for="playerName">Player name (optional)</label> <!-- label kotak nama -->
+  <input id="playerName" maxlength="24" placeholder="Example: Mia" autocomplete="off"> <!-- kotak taip nama -->
+  <div class="rules"> <!-- grid peraturan -->
+    <div class="rule"><b>❤️ 3 lives</b>Each mistake costs one life. Fewer lives means fewer choices!</div> <!-- peraturan nyawa -->
+    <div class="rule"><b>⏱️ Beat the clock</b>Every level has its own timer. Fresh time on every try.</div> <!-- peraturan masa -->
+    <div class="rule"><b>❤️‍🩹 Win lives back</b>2 correct in a row earns 1 life back.</div> <!-- peraturan pulih nyawa -->
+    <div class="rule"><b>🏆 Reach 1 million</b>Clear all 20 levels to become a Double Master!</div> <!-- peraturan menang -->
+  </div> <!-- tamat grid peraturan -->
+  <button id="startBtn" class="primary">START ▶</button> <!-- butang mula game -->
+  <div class="recent"> <!-- bahagian rekod terbaik -->
+    <b>🌟 Your best</b> <!-- tajuk rekod -->
+    <div class="rules" style="margin-top:8px"> <!-- grid rekod -->
+      <div class="rule"><b>🏆 Best level</b><span id="menuBestLevel">No games yet</span></div> <!-- level terbaik -->
+      <div class="rule"><b>⚡ Best time</b><span id="menuBestTime">No games yet</span></div> <!-- masa terbaik -->
+    </div> <!-- tamat grid rekod -->
+  </div> <!-- tamat bahagian rekod -->
+  <div class="recent"> <!-- bahagian permainan lepas -->
+    <b>🎮 Recent plays</b> <!-- tajuk permainan lepas -->
+    <ul id="recentList"></ul> <!-- senarai diisi oleh JS -->
+  </div> <!-- tamat permainan lepas -->
+  <p class="panelnote">Tip: wrong answers are never shown. Solve it in your head!</p> <!-- tip -->
+</section> <!-- tamat skrin menu -->
+<section id="game" class="hidden"> <!-- skrin permainan -->
+  <div class="stats"> <!-- bar Level/Masa/Nyawa -->
+    <div class="stat"><div class="k">Level</div><div id="level" class="v">1</div></div> <!-- paparan level -->
+    <div class="stat"><div class="k">Time</div><div id="elapsed" class="v">00:00</div></div> <!-- paparan masa keseluruhan -->
+    <div class="stat"><div class="k">Lives</div><div id="hearts" class="v hearts">❤️ ❤️ ❤️</div></div> <!-- paparan nyawa -->
+  </div> <!-- tamat bar statistik -->
+  <div class="progress"><div id="progressFill"></div></div> <!-- bar perjalanan ke 1 juta -->
+  <div id="questionCard" class="panel question"> <!-- kad soalan (disorok masa give up) -->
+    <div class="hint">Double this number</div> <!-- arahan -->
+    <div id="levelOf" class="goal">Level 1 of 20 · 🎯 Goal 1,048,576</div> <!-- level semasa dan matlamat -->
+    <div id="equation" class="equation">1 + 1 = ?</div> <!-- soalan n + n -->
+    <div class="timer"><span id="timeLeft">⏱ 15s</span><div id="tbar" class="tbar"><div id="timeFill"></div></div></div> <!-- pemasa setiap soalan -->
+    <div id="choices" class="choices"></div> <!-- butang jawapan diisi oleh JS -->
+    <div id="feedback" class="feedback" aria-live="polite"></div> <!-- mesej betul/salah dibaca pembaca skrin -->
+    <div class="livebar"><span>🔥 Streak: <b id="streak">0</b></span><span id="lifeMeter">❤️ Full lives!</span></div> <!-- streak dan meter pulih nyawa -->
+  </div> <!-- tamat kad soalan -->
+  <div class="btnrow"><button id="pauseBtn" class="secondary smallbtn">⏸ PAUSE</button><button id="giveUpBtn" class="secondary smallbtn">🏳 GIVE UP</button></div> <!-- butang pause dan give up -->
+</section> <!-- tamat skrin permainan -->
+<div id="pauseOverlay" class="overlay hidden"> <!-- lapisan pause penuh skrin -->
+  <div class="dcard"> <!-- kad pause -->
+    <div class="paused-title">⏸ PAUSED</div> <!-- tajuk pause -->
+    <div class="dsub">🤫 Quick distraction... don't forget your question!</div> <!-- beritahu ini gangguan -->
+    <div id="decoyText" class="ddecoy" aria-hidden="true">2 + 2 = 4</div> <!-- nombor decoy, disorok dari pembaca skrin -->
+    <button id="resumeBtn" class="primary">▶ RESUME</button> <!-- butang sambung main -->
+  </div> <!-- tamat kad pause -->
+</div> <!-- tamat lapisan pause -->
+<section id="result" class="panel hidden"> <!-- skrin keputusan -->
+  <div class="resulttop"> <!-- bahagian atas keputusan -->
+    <div class="medal" id="resultEmoji">🚀</div> <!-- emoji pingat ikut prestasi -->
+    <div class="eyebrow">Game over</div> <!-- label tamat -->
+    <h1 id="resultTitle">Great job!</h1> <!-- tajuk keputusan ikut nama -->
+    <p class="sub" id="resultSub" style="margin-bottom:8px">Here are your results.</p> <!-- sebab game tamat -->
+    <div class="resultnum" id="reachedNumber">0</div> <!-- nombor tertinggi dicapai -->
+    <div style="color:var(--muted);font-size:13px;font-weight:700">Highest number reached</div> <!-- label nombor -->
+    <div id="answerBox" class="answerbox hidden"><span class="alabel">The answer was</span><span id="answerText"></span></div> <!-- dedah jawapan bila kalah/give up -->
+  </div> <!-- tamat atas keputusan -->
+  <div class="resultgrid"> <!-- grid statistik -->
+    <div class="resultitem"><div class="k">Reached level</div><div id="resLevel" class="v">1</div></div> <!-- level dicapai -->
+    <div class="resultitem"><div class="k">Total time</div><div id="resTime" class="v">00:00</div></div> <!-- jumlah masa -->
+    <div class="resultitem"><div class="k">Accuracy</div><div id="resAccuracy" class="v">100%</div></div> <!-- ketepatan -->
+    <div class="resultitem"><div class="k">🔥 Best streak</div><div id="resStreak" class="v">0</div></div> <!-- streak terbaik -->
+    <div class="resultitem"><div class="k">Correct</div><div id="resCorrect" class="v">0</div></div> <!-- bilangan betul -->
+    <div class="resultitem"><div class="k">❤️ Lives refilled</div><div id="resRefills" class="v">0</div></div> <!-- bilangan nyawa dipulih -->
+  </div> <!-- tamat grid statistik -->
+  <div class="rules" style="margin-top:0"> <!-- grid rekod peranti -->
+    <div class="rule"><b>🏆 Best level</b><span id="bestLevel">No games yet</span></div> <!-- level terbaik -->
+    <div class="rule"><b>⚡ Best time</b><span id="bestTime">No games yet</span></div> <!-- masa terbaik game penuh -->
+  </div> <!-- tamat grid rekod -->
+  <button id="againBtn" class="primary">PLAY AGAIN ↻</button> <!-- main semula -->
+  <button id="menuBtn" class="secondary">MENU</button> <!-- kembali ke menu -->
+  <button id="exportBtn" class="secondary">DOWNLOAD RESULTS (.CSV)</button> <!-- muat turun CSV -->
+  <details> <!-- bahagian sejarah boleh buka -->
+    <summary>See every answer</summary> <!-- tajuk klik -->
+    <div class="tablewrap"><table><thead><tr><th>Level</th><th>Question</th><th>Picked</th><th>Result</th><th>Time</th></tr></thead><tbody id="historyBody"></tbody></table></div> <!-- jadual diisi JS -->
+  </details> <!-- tamat sejarah -->
+  <p class="panelnote">Results are saved on this device and browser only.</p> <!-- nota simpanan -->
+</section> <!-- tamat skrin keputusan -->
+<footer>DOUBLE RUSH · Fun doubling practice</footer> <!-- nota kaki -->
+</div> <!-- tamat bekas utama -->
+<script> // mula blok JavaScript: semua logik game, tiada internet diperlukan
+(function(){ // bungkus kod supaya pembolehubah tidak bocor keluar
+'use strict'; // peraturan JS ketat untuk kesan silap awal
+const $ = id => document.getElementById(id); // jalan pintas cari elemen ikut id
+const STORE = 'doubleRushRecordsV1'; // kunci localStorage untuk rekod
+const SOUND_KEY = 'doubleRushSound'; // kunci localStorage untuk tetapan bunyi
+const MAX_LEVEL = 20; // game tamat selepas level 20 (jawapan 1,048,576)
+const WARN_AT = 5; // amaran merah bermula pada baki 5 saat
+const LEVEL_TIME = [15,15,15,17,18,18,20,21,22,26,30,31,32,36,38,39,44,47,48,55]; // had masa setiap level
+const PRAISE = ['Awesome!','Great job!','Super!','Amazing!','Brilliant!','You rock!','Wow!','Fantastic!']; // pujian rawak
+let state = null; // pegang seluruh game semasa (null = tiada game)
+let countTimer = null; // id interval jam kira detik
+let decoyTimer = null; // id interval tukar nombor decoy masa pause
+let questionStarted = 0; // masa soalan semasa dipapar
+let busy = false; // kunci semasa animasi supaya tiada tekan berganda
+let runSeq = 0; // nombor siri game supaya timer lama tak kacau game baru
+let audio = null; // objek bunyi kongsi, dibina masa tekan pertama
+let soundOn = true; // false bila pemain mute
+try { soundOn = localStorage.getItem(SOUND_KEY) !== 'off'; } catch (e) {} // baca tetapan mute tersimpan
+function beep(f, d, delay){ // main satu not bunyi
+ if (!soundOn) return; // senyap jika mute
+ try { // audio boleh gagal di sesetengah pelayar
+  audio = audio || new (window.AudioContext || window.webkitAudioContext)(); // bina objek bunyi sekali sahaja
+  const t = audio.currentTime + (delay || 0); // masa mula not
+  const o = audio.createOscillator(), g = audio.createGain(); // penjana nada dan kawalan kuat
+  o.type = 'sine'; o.frequency.value = f; // nada lembut pada frekuensi diberi
+  g.gain.setValueAtTime(.1, t); g.gain.exponentialRampToValueAtTime(.001, t + d); // kuat kemudian perlahan
+  o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t + d); // sambung ke speaker dan main
+ } catch (e) {} // abaikan jika audio tidak disokong
+} // tamat fungsi bunyi
+function jingle(){ beep(660, .1, 0); beep(880, .16, .09); } // bunyi ceria bila betul
+function lifeJingle(){ beep(523, .1, 0); beep(659, .1, .09); beep(784, .22, .18); } // bunyi istimewa bila dapat nyawa
+function buzz(){ beep(200, .25, 0); } // bunyi rendah bila salah
+function tick(){ beep(1200, .05, 0); } // bunyi detik saat terakhir
+function fmt(n){ return Number(n).toLocaleString('en-US'); } // format nombor dengan koma ribu
+function timeFmt(sec){ sec = Math.max(0, Math.floor(sec)); const m = Math.floor(sec / 60), s = sec % 60; return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; } // tukar saat jadi MM:SS
+function getRecords(){ // baca rekod tersimpan
+ try { const r = JSON.parse(localStorage.getItem(STORE)); if (r && typeof r === 'object') return { bestLevel: r.bestLevel || 0, bestTime: (typeof r.bestTime === 'number' ? r.bestTime : null), attempts: Array.isArray(r.attempts) ? r.attempts : [] }; } catch (e) {} // data rosak diabaikan
+ return { bestLevel: 0, bestTime: null, attempts: [] }; // nilai lalai bila tiada rekod
+} // tamat baca rekod
+function saveRecords(r){ try { localStorage.setItem(STORE, JSON.stringify(r)); } catch (e) {} } // simpan rekod, senyap jika gagal
+function pairFor(level){ const a = Math.pow(2, level - 1); return { a: a, expected: a * 2 }; } // rantaian gandaan: level N tanya 2^(N-1) + 2^(N-1)
+function show(which){ ['start','game','result'].forEach(id => $(id).classList.toggle('hidden', id !== which)); } // tunjuk satu skrin, sorok dua lagi
+function updateMenu(){ // isi menu dengan rekod terkini
+ const r = getRecords(); // baca rekod
+ $('menuBestLevel').textContent = r.bestLevel > 0 ? ('Lv ' + r.bestLevel) : 'No games yet'; // papar level terbaik
+ $('menuBestTime').textContent = r.bestTime == null ? 'No games yet' : timeFmt(r.bestTime) + ' (full run)'; // papar masa terbaik
+ const ul = $('recentList'); ul.innerHTML = ''; // kosongkan senarai lama
+ if (!r.attempts.length) { const li = document.createElement('li'); li.textContent = 'No games yet. Be the first star!'; ul.appendChild(li); return; } // mesej bila kosong
+ r.attempts.slice(0, 5).forEach(a => { const li = document.createElement('li'); li.textContent = 'Lv ' + a.level + ' · ' + timeFmt(a.duration) + ' · ' + a.accuracy + '% · ' + a.result; ul.appendChild(li); }); // isi 5 permainan terkini
+} // tamat kemas menu
+function choiceCount(){ // berapa butang jawapan perlu dipapar
+ if (state.attempt === 0) return 4; // percubaan PERTAMA pada level baru sentiasa 4 pilihan (tutup loophole simpan nyawa rendah)
+ return state.lives >= 3 ? 4 : (state.lives === 2 ? 3 : 2); // percubaan ulang pada level sama: 4/3/2 ikut nyawa
+} // tamat kira bilangan pilihan
+function makeDistractors(a, expected){ // bina 3 jawapan salah yang nampak hampir betul
+ const out = []; const seen = {}; // senarai hasil dan penjejak pendua
+ const d = String(expected).length; // bilangan digit jawapan betul
+ const push = v => { if (v > 0 && v !== expected && !seen[v] && Math.abs(String(v).length - d) <= 1) { seen[v] = 1; out.push(v); } }; // terima jika positif, bukan jawapan, unik, saiz hampir
+ push(expected - 1); push(expected + 1); // silap satu (paling mengelirukan)
+ push(a); // nombor dalam soalan (perangkap cuai)
+ push(expected - 2); push(expected + 2); // silap dua
+ push(expected - 10); push(expected + 10); // silap carry kecil
+ push(expected - 100); push(expected + 100); // silap carry besar
+ const s = String(expected); // tukar jawapan jadi teks untuk tukar digit
+ for (let i = 0; i + 1 < s.length; i++) { const t = s.split(''); const tmp = t[i]; t[i] = t[i + 1]; t[i + 1] = tmp; if (t[0] !== '0') push(Number(t.join(''))); } // tukar dua digit bersebelahan
+ push(expected + 3); push(expected - 3); push(expected + 20); push(expected + 200); // simpanan jika masih kurang
+ return out.slice(0, 3); // ambil 3 sahaja
+} // tamat penjana distractor
+function shuffled(arr){ const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; } // kocok susunan supaya posisi jawapan rawak
+function begin(){ // mula game baru
+ stopCountdown(); stopDecoys(); // hentikan sebarang timer lama
+ hidePause(); // pastikan overlay pause tertutup
+ $('pauseOverlay').classList.add('hidden'); // sorok lapisan pause
+ try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); if (audio.state === 'suspended') audio.resume(); } catch (e) {} // sediakan audio dalam gesture pengguna
+ state = { name: $('playerName').value.trim() || 'Player', level: 1, lives: 3, attempt: 0, correct: 0, wrong: 0, streak: 0, maxStreak: 0, recovery: 0, refills: 0, start: performance.now(), durationMs: null, history: [], finished: false, paused: false, pausedAt: 0, timeLeft: 0, lastTickSec: -1, current: null, optionSet: [], lastDecoy: '', runId: ++runSeq }; // bina keadaan game baru (attempt = percubaan ke berapa pada level ini)
+ busy = false; // buka kunci tekan
+ show('game'); // pergi ke skrin permainan
+ $('questionCard').classList.remove('hidden'); // pastikan kad soalan nampak (pernah disorok oleh give up)
+ renderQuestion(); // papar soalan pertama
+ updateStats(); // kemas paparan statistik
+} // tamat mula game
+function renderQuestion(){ // papar soalan level semasa dengan pilihan dan timer baru
+ const pair = pairFor(state.level); // dapat pasangan gandaan level ini
+ state.current = pair; // simpan untuk semakan jawapan
+ const need = choiceCount(); // berapa butang perlu (4/3/2)
+ const ds = makeDistractors(pair.a, pair.expected); // bina jawapan salah
+ const options = shuffled([pair.expected].concat(ds.slice(0, need - 1))); // campur betul + salah yang perlu
+ state.optionSet = options.slice(); // simpan untuk elak decoy sama dengan pilihan
+ $('levelOf').textContent = 'Level ' + state.level + ' of ' + MAX_LEVEL + ' · 🎯 Goal 1,048,576'; // label level
+ $('equation').textContent = fmt(pair.a) + ' + ' + fmt(pair.a) + ' = ?'; // papar soalan n + n
+ const box = $('choices'); box.innerHTML = ''; // buang butang lama
+ options.forEach(v => { const b = document.createElement('button'); b.type = 'button'; b.className = 'choice'; b.textContent = fmt(v); b.setAttribute('aria-label', 'Answer ' + fmt(v)); b.addEventListener('click', () => onPick(v)); box.appendChild(b); }); // bina butang jawapan boleh tekan
+ $('feedback').textContent = ''; $('feedback').className = 'feedback'; // kosongkan mesej lama
+ $('progressFill').style.width = (state.level / MAX_LEVEL * 100) + '%'; // bar perjalanan ke 1 juta
+ $('tbar').classList.remove('low'); // buang warna amaran lama
+ questionStarted = performance.now(); // mula kira masa soalan ini
+ busy = false; // benarkan tekan
+ setButtonsEnabled(true); // hidupkan butang pilihan dan pause
+ state.timeLeft = LEVEL_TIME[state.level - 1]; // timer penuh baru setiap percubaan
+ state.lastTickSec = -1; // reset penjejak detik
+ updateStats(); // kemas statistik
+ drawClock(); // lukis bar masa sekali serta-merta
+ startCountdown(); // mula jam kira detik
+} // tamat papar soalan
+function setButtonsEnabled(on){ const kids = $('choices').children; for (let i = 0; i < kids.length; i++) kids[i].disabled = !on; $('pauseBtn').disabled = !on; $('giveUpBtn').disabled = !on; } // hidup/mati semua butang ketika animasi
+function startCountdown(){ // mula jam kira detik 5 kali sesaat
+ stopCountdown(); // hentikan jam lama jika ada
+ const id = state ? state.runId : -1; // ingat game mana jam ini milik
+ countTimer = setInterval(() => { // ulang setiap 0.2 saat
+  if (!state || state.finished || state.paused || state.runId !== id) { stopCountdown(); return; } // berhenti jika game tamat/pause/lama
+  state.timeLeft -= 0.2; // tolak masa
+  if (state.timeLeft <= 0) { state.timeLeft = 0; drawClock(); stopCountdown(); onTimeout(); return; } // masa habis
+  const s = Math.ceil(state.timeLeft); // saat penuh tinggal
+  if (s <= WARN_AT && s !== state.lastTickSec) { state.lastTickSec = s; tick(); } // bunyi detik 5 saat terakhir
+  drawClock(); // kemas paparan jam
+ }, 200); // tamat ulang 0.2 saat
+} // tamat mula jam
+function stopCountdown(){ if (countTimer) { clearInterval(countTimer); countTimer = null; } } // hentikan jam kira detik
+function drawClock(){ // lukis teks dan bar masa
+ if (!state) return; // tiada game, tiada apa dilukis
+ $('timeLeft').textContent = '⏱ ' + Math.ceil(Math.max(0, state.timeLeft)) + 's'; // teks baki saat
+ $('timeFill').style.width = (Math.max(0, state.timeLeft) / LEVEL_TIME[state.level - 1] * 100) + '%'; // lebar bar ikut baki
+ if (state.timeLeft <= WARN_AT) $('tbar').classList.add('low'); else $('tbar').classList.remove('low'); // merah bila hampir habis
+} // tamat lukis jam
+function updateStats(){ // kemas semua paparan statistik
+ if (!state || state.finished) return; // tiada game aktif
+ $('level').textContent = Math.min(state.level, MAX_LEVEL); // nombor level semasa
+ $('elapsed').textContent = timeFmt((performance.now() - state.start) / 1000); // jumlah masa berlalu
+ $('hearts').textContent = Array.from({ length: 3 }, (_, i) => i < state.lives ? '❤️' : '🤍').join(' '); // hati penuh/kosong ikut nyawa
+ $('streak').textContent = state.streak; // streak betul berturut
+ $('lifeMeter').textContent = state.lives >= 3 ? '❤️ Full lives!' : ('❤️‍🩹 +1 life in ' + (2 - state.recovery) + ' correct'); // meter pulih nyawa
+} // tamat kemas statistik
+setInterval(() => { if (state && !state.finished && !state.paused) updateStats(); }, 500); // kemas jam keseluruhan dua kali sesaat
+function animate(ok){ const el = $('equation'); el.classList.remove('pop', 'shake'); void el.offsetWidth; el.classList.add(ok ? 'pop' : 'shake'); } // lantun bila betul, gegar bila salah
+function onPick(value){ // bila butang jawapan ditekan
+ if (!state || state.finished || busy || state.paused) return; // abaikan tekan tidak sah
+ stopCountdown(); // bekukan jam sebaik jawapan dipilih
+ const expected = state.current.expected; // jawapan betul soalan ini
+ const ms = performance.now() - questionStarted; // masa diambil untuk soalan ini
+ const ok = value === expected; // betul jika nombor ditekan sama
+ const id = state.runId; // ingat game ini untuk guard timer
+ state.history.push({ level: state.level, q: fmt(state.current.a) + ' + ' + fmt(state.current.a), answer: fmt(value), expected: expected, ok: ok, seconds: ms / 1000 }); // rekod percubaan
+ busy = true; // kunci supaya tiada tekan berganda
+ setButtonsEnabled(false); // padamkan butang semasa animasi
+ animate(ok); // animasi ikut betul/salah
+ if (ok) { // cabang jawapan betul
+  state.correct++; // tambah bilangan betul
+  state.streak++; // panjangkan streak
+  state.maxStreak = Math.max(state.maxStreak, state.streak); // simpan streak terbaik
+  let gotLife = false; // penanda jika dapat nyawa
+  if (state.lives < 3) { // pemulihan hanya bila nyawa kurang
+   state.recovery++; // kira jawapan betul ini
+   if (state.recovery >= 2) { // dua berturut cukup
+    state.lives++; // tambah satu nyawa
+    state.recovery = 0; // reset kiraan
+    state.refills++; // kira untuk skrin keputusan
+    gotLife = true; // tanda untuk mesej khas
+   } // tamat syarat pulih
+  } // tamat pemulihan
+ state.level++; // naik ke level seterusnya
+ state.attempt = 0; // level baru bermakna percubaan pertama semula (dapat 4 pilihan)
+  if (gotLife) { $('feedback').textContent = '❤️‍🩹 Life back! ' + fmt(expected); lifeJingle(); } else { $('feedback').textContent = PRAISE[Math.floor(Math.random() * PRAISE.length)] + ' ' + fmt(expected); jingle(); } // mesej dan bunyi
+  $('feedback').className = 'feedback good'; // warna hijau
+  updateStats(); // kemas paparan
+  setTimeout(() => { if (!state || state.finished || state.runId !== id) return; if (state.level > MAX_LEVEL) finish('win'); else renderQuestion(); }, 650); // level baru selepas animasi
+ } else { // cabang jawapan salah
+  state.wrong++; state.lives--; state.streak = 0; state.recovery = 0; state.attempt++; // tolak nyawa, reset streak dan pemulihan, tambah kiraan percubaan
+  buzz(); // bunyi salah
+  $('feedback').textContent = 'Oops! Not quite. Try again!'; $('feedback').className = 'feedback bad'; // mesej tanpa dedah jawapan
+  updateStats(); // kemas paparan
+  setTimeout(() => { if (!state || state.finished || state.runId !== id) return; if (state.lives <= 0) finish('lives'); else renderQuestion(); }, 900); // ulang soalan sama
+ } // tamat cabang salah
+} // tamat tekan jawapan
+function onTimeout(){ // bila masa soalan habis
+ if (!state || state.finished || busy || state.paused) return; // abaikan jika sudah dijawab
+ const ms = performance.now() - questionStarted; // masa penuh digunakan
+ const id = state.runId; // ingat game ini
+ state.history.push({ level: state.level, q: fmt(state.current.a) + ' + ' + fmt(state.current.a), answer: '-', expected: state.current.expected, ok: false, seconds: ms / 1000 }); // rekod sebagai gagal
+ busy = true; // kunci tekan
+ setButtonsEnabled(false); // padamkan butang
+ animate(false); // gegar seperti salah
+ state.wrong++; state.lives--; state.streak = 0; state.recovery = 0; state.attempt++; // tolak nyawa, reset kiraan, tambah kiraan percubaan
+ buzz(); // bunyi salah
+ $('feedback').textContent = "⏰ Time's up! Try again!"; $('feedback').className = 'feedback bad'; // mesej tanpa dedah jawapan
+ updateStats(); // kemas paparan
+ setTimeout(() => { if (!state || state.finished || state.runId !== id) return; if (state.lives <= 0) finish('lives'); else renderQuestion(); }, 900); // ulang soalan sama
+} // tamat masa habis
+function decoyFor(level){ // bina persamaan decoy untuk ganggu memori masa pause
+ const opts = state.optionSet || []; // nombor pada butang semasa
+ const pool = []; // kumpulan calon decoy yang selamat
+ for (let L = level - 1; L >= 1 && L >= level - 3; L--) { const p = pairFor(L); if (opts.indexOf(p.expected) === -1) pool.push(fmt(p.a) + ' + ' + fmt(p.a) + ' = ' + fmt(p.expected)); } // calon dari 3 level lebih rendah, hanya jika jawapannya tiada dalam pilihan
+ for (let x = 1; x <= 12; x++) { const v = x * 2; if (opts.indexOf(v) === -1 && v !== state.current.expected) pool.push(x + ' + ' + x + ' = ' + v); } // calon gandaan kecil yang tidak muncul sebagai pilihan
+ if (!pool.length) return '…'; // jalan terakhir supaya tidak kosong
+ let pick = pool[Math.floor(Math.random() * pool.length)]; // pilih rawak supaya otak sentiasa diganggu
+ let guard = 0; // hadkan gelung elak ulangan
+ while (pool.length > 1 && pick === state.lastDecoy && guard++ < 12) pick = pool[Math.floor(Math.random() * pool.length)]; // jangan tunjuk decoy sama dua kali berturut
+ state.lastDecoy = pick; // ingat decoy terakhir
+ return pick; // pulangkan decoy terpilih
+} // tamat decoy
+function showDecoy(){ $('decoyText').textContent = decoyFor(state.level); } // papar satu decoy baru
+function stopDecoys(){ if (decoyTimer) { clearInterval(decoyTimer); decoyTimer = null; } } // hentikan putaran decoy
+function pauseGame(){ // jeda game dan sorok soalan
+ if (!state || state.finished || state.paused) return; // hanya bila game berjalan
+ stopCountdown(); // bekukan jam
+ state.paused = true; // tanda pause
+ state.pausedAt = performance.now(); // ingat masa pause untuk betulkan stopwatch
+ showDecoy(); // tunjuk decoy pertama
+ decoyTimer = setInterval(() => { if (state && state.paused) showDecoy(); }, 2500); // tukar decoy setiap 2.5 saat
+ $('pauseOverlay').classList.remove('hidden'); // buka lapisan pause
+ $('resumeBtn').focus(); // fokus ke butang resume untuk keyboard
+} // tamat pause
+function hidePause(){ $('pauseOverlay').classList.add('hidden'); } // sorok lapisan pause
+function resumeGame(){ // sambung game
+ if (!state || !state.paused) return; // hanya bila sedang pause
+ stopDecoys(); // hentikan decoy
+ hidePause(); // tutup lapisan
+ state.paused = false; // buang tanda pause
+ questionStarted += performance.now() - state.pausedAt; // tolak masa pause dari stopwatch
+ startCountdown(); // sambung jam dengan baki masa sama
+} // tamat resume
+function giveUp(){ // butang give up ditekan
+ if (!state || state.finished || state.paused || busy) return; // hanya bila game berjalan dan tiada animasi
+ stopCountdown(); // bekukan jam supaya masa tidak dimakan oleh dialog pengesahan
+ $('questionCard').classList.add('hidden'); // sorok soalan supaya dialog tidak mendedahkan apa-apa
+ const sure = (typeof window.confirm === 'function') ? window.confirm('Give up? The answer will be shown and the game ends.') : true; // tanya pengesahan
+ if (!sure) { $('questionCard').classList.remove('hidden'); startCountdown(); return; } // batal: tunjuk soalan semula dan sambung jam dengan baki masa sama
+ finish('giveup'); // tamatkan sebagai give up
+} // tamat give up
+function finish(reason){ // tamatkan game dan kira keputusan
+ if (!state || state.finished) return; // sekali sahaja
+ state.finished = true; // tanda tamat
+ stopCountdown(); stopDecoys(); hidePause(); // hentikan semua timer dan overlay
+ $('questionCard').classList.remove('hidden'); // pastikan kad soalan tidak tersorok
+ const durationMs = performance.now() - state.start; state.durationMs = durationMs; // beku jumlah masa untuk CSV
+ const duration = durationMs / 1000; // jumlah masa dalam saat
+ const attempts = state.correct + state.wrong; // jumlah percubaan
+ const accuracy = attempts ? (state.correct / attempts * 100) : 0; // peratus betul
+ const reached = reason === 'win' ? MAX_LEVEL : state.level; // level dicapai (menang = 20)
+ const resultWord = reason === 'win' ? 'Won!' : (reason === 'giveup' ? 'Gave up at Lv ' + state.level : 'Out of lives at Lv ' + state.level); // label hasil
+ let maxNum = 0; state.history.forEach(h => { if (h.ok && h.expected > maxNum) maxNum = h.expected; }); // cari nombor tertinggi berjaya
+ $('resultEmoji').textContent = reason === 'win' ? '🏆' : (reached >= 10 ? '⭐' : (reached >= 5 ? '🎉' : '🚀')); // emoji ikut pencapaian
+ $('resultTitle').textContent = reason === 'win' ? 'DOUBLE MASTER, ' + state.name + '!' : (reached >= 10 ? 'Great job, ' + state.name + '!' : (reached >= 5 ? 'Good try, ' + state.name + '!' : 'Keep practicing, ' + state.name + '!')); // tajuk ikut pencapaian
+ $('resultSub').textContent = reason === 'win' ? 'You doubled all the way to 1,048,576!' : (reason === 'giveup' ? 'You gave up at Level ' + state.level + '. Every try makes you stronger.' : 'Out of lives at Level ' + state.level + '. Every try makes you stronger.'); // penerangan tamat
+ $('reachedNumber').textContent = fmt(maxNum); // papar nombor tertinggi
+ if (reason === 'win') { $('answerBox').classList.add('hidden'); } else { const c = state.current; $('answerText').textContent = fmt(c.a) + ' + ' + fmt(c.a) + ' = ' + fmt(c.expected); $('answerBox').classList.remove('hidden'); } // dedah jawapan hanya bila kalah/give up
+ $('resLevel').textContent = reached; // level dicapai
+ $('resTime').textContent = timeFmt(duration); // jumlah masa
+ $('resAccuracy').textContent = accuracy.toFixed(0) + '%'; // ketepatan
+ $('resStreak').textContent = state.maxStreak; // streak terbaik
+ $('resCorrect').textContent = state.correct; // bilangan betul
+ $('resRefills').textContent = state.refills; // nyawa dipulih
+ const records = getRecords(); // baca rekod lama
+ records.bestLevel = Math.max(records.bestLevel || 0, reached); // kemas level terbaik
+ if (reason === 'win' && (records.bestTime == null || duration < records.bestTime)) records.bestTime = duration; // masa terbaik hanya untuk game penuh
+ records.attempts = records.attempts || []; // pastikan senarai wujud
+ records.attempts.unshift({ date: new Date().toISOString(), name: state.name, level: reached, correct: state.correct, duration: duration, accuracy: Math.round(accuracy), result: resultWord }); // tambah permainan ini di depan
+ records.attempts = records.attempts.slice(0, 20); // simpan 20 terkini sahaja
+ saveRecords(records); // simpan
+ $('bestLevel').textContent = records.bestLevel > 0 ? ('Lv ' + records.bestLevel) : 'No games yet'; // papar level terbaik
+ $('bestTime').textContent = records.bestTime == null ? 'No games yet' : timeFmt(records.bestTime) + ' (full run)'; // papar masa terbaik
+ $('historyBody').innerHTML = ''; // kosongkan jadual lama
+ state.history.forEach(h => { const tr = document.createElement('tr'); [h.level, h.q, h.answer, h.ok ? 'Correct' : 'Wrong', h.seconds.toFixed(2) + 's'].forEach((v, i) => { const td = document.createElement('td'); td.textContent = v; if (i === 3) td.style.color = h.ok ? 'var(--green)' : 'var(--red)'; tr.appendChild(td); }); $('historyBody').appendChild(tr); }); // isi jadual sejarah
+ show('result'); // pergi ke skrin keputusan
+} // tamat fungsi tamat game
+function exportCsv(){ // muat turun keputusan sebagai CSV
+ if (!state || state.durationMs == null) return; // hanya selepas game tamat
+ const duration = state.durationMs / 1000; // guna masa beku, bukan masa sekarang
+ const rows = [['Name', state.name], ['Reached level', Math.min(state.level, MAX_LEVEL)], ['Correct answers', state.correct], ['Total seconds', duration.toFixed(2)], []]; // baris ringkasan
+ rows.push(['Level', 'Question', 'Picked', 'Correct answer', 'Result', 'Seconds']); // kepala jadual
+ state.history.forEach(h => rows.push([h.level, h.q, h.answer, h.expected, h.ok ? 'Correct' : 'Wrong', h.seconds.toFixed(2)])); // setiap percubaan
+ const csv = rows.map(r => r.map(v => '"' + String(v === undefined || v === null ? '' : v).replace(/"/g, '""') + '"').join(',')).join('\r\n'); // bina teks CSV selamat
+ const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' }); // fail CSV dengan BOM untuk Excel
+ const url = URL.createObjectURL(blob); // pautan sementara ke fail
+ const a = document.createElement('a'); a.href = url; a.download = 'double-rush-results.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); // muat turun automatik
+} // tamat export CSV
+function toggleSound(){ soundOn = !soundOn; try { localStorage.setItem(SOUND_KEY, soundOn ? 'on' : 'off'); } catch (e) {} $('soundBtn').textContent = soundOn ? '🔊' : '🔇'; if (soundOn) jingle(); } // tukar mod bunyi dan simpan
+document.addEventListener('keydown', e => { // pintasan keyboard 1-4 untuk pilih jawapan
+ if (!state || state.finished || state.paused || busy) return; // hanya bila boleh jawab
+ if ($('game').classList.contains('hidden')) return; // hanya di skrin game
+ const n = Number(e.key); // tukar kekunci jadi nombor
+ if (n >= 1 && n <= 4) { const kids = $('choices').children; if (kids[n - 1] && !kids[n - 1].disabled) kids[n - 1].click(); } // tekan butang ke-n
+}); // tamat pintasan keyboard
+document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); }); // pause automatik bila tab disorok
+$('soundBtn').textContent = soundOn ? '🔊' : '🔇'; // set ikon bunyi ikut tetapan
+$('startBtn').addEventListener('click', begin); // butang START mula game
+$('pauseBtn').addEventListener('click', pauseGame); // butang PAUSE jeda game
+$('resumeBtn').addEventListener('click', resumeGame); // butang RESUME sambung game
+$('giveUpBtn').addEventListener('click', giveUp); // butang GIVE UP tamat dengan dedah jawapan
+$('againBtn').addEventListener('click', begin); // butang PLAY AGAIN mula game baru
+$('menuBtn').addEventListener('click', () => { show('start'); updateMenu(); }); // butang MENU kembali dan kemas rekod
+$('exportBtn').addEventListener('click', exportCsv); // butang CSV muat turun
+$('soundBtn').addEventListener('click', toggleSound); // butang bunyi tukar mod
+updateMenu(); // isi rekod menu masa mula
+})(); // tamat bungkus kod
+</script> <!-- tamat blok JavaScript -->
+</body> <!-- tamat badan -->
+</html> <!-- tamat fail -->
